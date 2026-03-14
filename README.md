@@ -5,6 +5,7 @@ A Docker Compose configuration for running Odoo 17 with PostgreSQL 15 database.
 ## Overview
 
 This repository provides a complete Docker-based setup for Odoo ERP system, including:
+
 - Odoo 17 web application
 - PostgreSQL 15 database
 - Persistent data storage
@@ -28,12 +29,14 @@ This repository provides a complete Docker-based setup for Odoo ERP system, incl
 ## Quick Start
 
 1. **Clone the repository:**
+
    ```bash
    git clone <repository-url>
    cd ODOO-Docker
    ```
 
 2. **Start the services:**
+
    ```bash
    docker-compose up -d
    ```
@@ -44,11 +47,13 @@ This repository provides a complete Docker-based setup for Odoo ERP system, incl
 ## Configuration
 
 ### Database Credentials
+
 - **Database:** postgres
 - **Username:** odoo
 - **Password:** odoo
 
 ### Odoo Admin
+
 - **Admin Password:** admin (configurable in `config/odoo.conf`)
 
 ## Directory Structure
@@ -74,6 +79,7 @@ ODOO-Docker/
 To add custom Odoo modules:
 
 1. Create the `addons` directory if it doesn't exist:
+
    ```bash
    mkdir addons
    ```
@@ -88,26 +94,31 @@ To add custom Odoo modules:
 ## Management Commands
 
 ### Start Services
+
 ```bash
 docker-compose up -d
 ```
 
 ### Stop Services
+
 ```bash
 docker-compose down
 ```
 
 ### View Logs
+
 ```bash
 docker-compose logs -f
 ```
 
 ### Access Odoo Container
+
 ```bash
 docker-compose exec web bash
 ```
 
 ### Access Database Container
+
 ```bash
 docker-compose exec db psql -U odoo -d postgres
 ```
@@ -117,11 +128,13 @@ docker-compose exec db psql -U odoo -d postgres
 The setup uses the following environment variables (defined in `docker-compose.yml`):
 
 **Database Service:**
+
 - `POSTGRES_DB=postgres`
 - `POSTGRES_USER=odoo`
 - `POSTGRES_PASSWORD=odoo`
 
 **Odoo Service:**
+
 - `HOST=db`
 - `USER=odoo`
 - `PASSWORD=odoo`
@@ -145,24 +158,32 @@ Edit `config/odoo.conf` and modify the `admin_passwd` value.
 ### Changing Port
 
 Update the ports mapping in `docker-compose.yml`:
+
 ```yaml
 ports:
   - "YOUR_PORT:8069"
 ```
 
+```bash
+http://localhost:8069/
+```
+
 ## Backup and Restore
 
 ### Backup Database
+
 ```bash
 docker-compose exec db pg_dump -U odoo postgres > backup.sql
 ```
 
 ### Restore Database
+
 ```bash
 docker-compose exec -T db psql -U odoo postgres < backup.sql
 ```
 
 ### Backup File Store
+
 ```bash
 docker run --rm -v odoo-web-data:/data -v $(pwd):/backup ubuntu tar czf /backup/odoo-files-backup.tar.gz -C /data .
 ```
@@ -187,6 +208,7 @@ docker run --rm -v odoo-web-data:/data -v $(pwd):/backup ubuntu tar czf /backup/
 ### Reset Installation
 
 To completely reset the installation:
+
 ```bash
 docker-compose down -v
 docker-compose up -d
